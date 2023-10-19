@@ -9,5 +9,18 @@
         android:id="@+id/homeFragment"
         android:name="com.keremkulac.bootcampfinalassignment.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_foodDetailFragment"
+            app:destination="@id/foodDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodDetailFragment"
+        android:name="com.keremkulac.bootcampfinalassignment.ui.detail.FoodDetailFragment"
+        android:label="fragment_food_detail"
+        tools:layout="@layout/fragment_food_detail" >
+        <argument
+            android:name="food"
+            app:argType="com.keremkulac.bootcampfinalassignment.entity.Foods" />
+    </fragment>
 </navigation>
