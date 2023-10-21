@@ -25,6 +25,11 @@ class FoodsAdapter(val context : Context,val list : List<Foods>) : RecyclerView.
             val action = HomeFragmentDirections.actionHomeFragmentToFoodDetailFragment(food)
             Navigation.findNavController(it).navigate(action)
         }
+
+        holder.binding.addBasket.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToAddBasketFragment(food)
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodsViewHolder {

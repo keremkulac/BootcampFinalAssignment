@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_foodDetailFragment"
             app:destination="@id/foodDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addBasketFragment"
+            app:destination="@id/addBasketFragment" />
     </fragment>
     <fragment
         android:id="@+id/foodDetailFragment"
@@ -22,5 +25,25 @@
         <argument
             android:name="food"
             app:argType="com.keremkulac.bootcampfinalassignment.entity.Foods" />
+        <action
+            android:id="@+id/action_foodDetailFragment_to_addBasketFragment"
+            app:destination="@id/addBasketFragment" />
+        <action
+            android:id="@+id/action_foodDetailFragment_to_basketFragment"
+            app:destination="@id/basketFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/addBasketFragment"
+        android:name="com.keremkulac.bootcampfinalassignment.ui.addbasket.AddBasketFragment"
+        android:label="fragment_add_basket"
+        tools:layout="@layout/fragment_add_basket" >
+        <argument
+            android:name="food"
+            app:argType="com.keremkulac.bootcampfinalassignment.entity.Foods" />
+    </dialog>
+    <fragment
+        android:id="@+id/basketFragment"
+        android:name="com.keremkulac.bootcampfinalassignment.ui.basket.BasketFragment"
+        android:label="fragment_basket"
+        tools:layout="@layout/fragment_basket" />
 </navigation>

@@ -3,4 +3,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="explanation">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget justo id lorem aliquet pharetra. Nulla facilisi.</string>
     <string name="todo">TODO</string>
+    <string name="_1">1</string>
+    <string name="add_basket">Sepete ekle</string>
+    <string name="confirm_basket">Sepeti Onayla</string>
+    <string name="total">Toplam</string>
 </resources>

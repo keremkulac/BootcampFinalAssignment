@@ -2,13 +2,14 @@ package com.keremkulac.bootcampfinalassignment.ui.detail
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.keremkulac.bootcampfinalassignment.R
@@ -19,21 +20,21 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FoodDetailFragment : Fragment() {
     private lateinit var binding : FragmentFoodDetailBinding
+    private val viewModel by viewModels<FoodDetailViewModel>()
     private var food : Foods? = null
     private val arg : FoodDetailFragmentArgs by navArgs()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_food_detail,container,false)
         food = arg.food
+        binding.detailObject = this
         binding.food = food
         val url = "http://kasimadalan.pe.hu/yemekler/resimler/${food!!.foodPicture}"
         Glide.with(requireContext()).load(url).override(500,700).into(binding.foodImage)
-        increasePiece()
-        decreasePiece()
         return binding.root
     }
 
 
-    private fun increasePiece(){
+     fun increasePiece(){
         binding.increase.setOnClickListener {
             var piece = binding.piece.text.toString().toInt()
             piece++
@@ -51,7 +52,7 @@ class FoodDetailFragment : Fragment() {
         }
     }
 
-    private fun decreasePiece(){
+     fun decreasePiece(){
         binding.decrease.setOnClickListener {
             var piece = binding.piece.text.toString().toInt()
             piece--
@@ -69,6 +70,22 @@ class FoodDetailFragment : Fragment() {
                 binding.decrease.setImageDrawable(drawable)
             }
         }
+    }
+
+     fun insertBasket(){
+        food?.let { food->
+            Log.d("tag123",food.toString()+binding.piece.text.toString())
+            viewModel.insertBasket(
+                food.foodName
+                ,food.foodPicture
+                ,food.foodPrice
+                ,binding.piece.text.toString().toInt()
+                ,"deneme21")
+        }
+    }
+
+    fun goToBasket(){
+        Navigation.findNavController(binding.root).navigate(FoodDetailFragmentDirections.actionFoodDetailFragmentToBasketFragment())
     }
 
 }
