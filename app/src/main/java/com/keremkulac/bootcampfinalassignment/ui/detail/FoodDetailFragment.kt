@@ -2,7 +2,6 @@ package com.keremkulac.bootcampfinalassignment.ui.detail
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
@@ -74,13 +73,12 @@ class FoodDetailFragment : Fragment() {
 
      fun insertBasket(){
         food?.let { food->
-            Log.d("tag123",food.toString()+binding.piece.text.toString())
             viewModel.insertBasket(
                 food.foodName
                 ,food.foodPicture
                 ,food.foodPrice
                 ,binding.piece.text.toString().toInt()
-                ,"deneme21")
+                ,"kerem")
         }
     }
 

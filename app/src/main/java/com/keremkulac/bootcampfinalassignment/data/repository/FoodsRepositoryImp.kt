@@ -11,4 +11,6 @@ class FoodsRepositoryImp(val repository: FoodsRepository) {
                               ,userName : String) = repository.insertBasket(foodName,foodPicture,foodPrice,foodPiece,userName)
     suspend fun getBasketItems(userName: String) = repository.getBasketItems(userName)
 
+    suspend fun deleteBasketItem(basketItemID : Int,userName : String) = repository.deleteBasketItem(basketItemID,userName)
+
 }

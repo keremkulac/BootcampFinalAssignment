@@ -48,15 +48,61 @@
                 android:id="@+id/foodPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text='@{basketItem.foodPrice+" ₺"}'
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/foodImage"
+                app:layout_constraintTop_toBottomOf="@+id/foodName" />
 
+
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/decreaseItem"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/decrease_round_button"
+                    android:gravity="center"
+                    android:textSize="26sp"
+                    android:elevation="15dp"
+                    android:text="@string/decrease"
+                    android:textColor="@color/purple_700" />
+
+                <TextView
+                    android:id="@+id/itemPiece"
+                    android:layout_width="36dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/purple_700"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                        android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/increaseItem"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:textSize="26sp"
+                    android:background="@drawable/increase_round_button"
+                    android:gravity="center"
+                    android:text="@string/increase"
+                    android:elevation="15dp"
+                    android:textColor="@color/purple_700" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 </layout>

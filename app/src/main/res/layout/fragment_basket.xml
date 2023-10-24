@@ -4,10 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="adapter"
             type="com.keremkulac.bootcampfinalassignment.ui.basket.BasketAdapter" />
+
+        <variable
+            name="basketObject"
+            type="com.keremkulac.bootcampfinalassignment.ui.basket.BasketFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,17 +19,40 @@
         tools:context=".ui.basket.BasketFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            app:title="Sepetim"
-            app:titleTextColor="@color/white"
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
+            android:background="@color/purple_700"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:onClick="@{() -> basketObject.back()}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/todo"
+                    android:src="@drawable/ic_back" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/back"
+                    android:text="@string/my_orders"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/basketRecyclerView"
@@ -39,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/toolBar"
             app:layout_constraintVertical_bias="0.0"
             app:spanCount="1" />
 
@@ -89,6 +115,7 @@
                     android:layout_margin="16dp"
                     android:background="@drawable/custom_button"
                     android:text="@string/confirm_basket"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -97,5 +124,16 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <TextView
+            android:id="@+id/emptyListWarning"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_basket_warning"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
