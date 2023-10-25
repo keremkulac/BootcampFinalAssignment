@@ -1,6 +1,5 @@
 package com.keremkulac.bootcampfinalassignment.ui.basket
 
-import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,10 +21,6 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
     val error: LiveData<Boolean>
         get() = _error
 
-    private val _piece = MutableLiveData<Int>()
-    val piece: LiveData<Int>
-        get() = _piece
-
     init {
         getBasketItems("kerem")
     }
@@ -37,6 +32,16 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
             }catch (e : java.lang.Exception){
                 _error.postValue(true)
             }
+        }
+    }
+
+    private fun insertBasket(foodName : String
+                             ,foodPicture : String
+                             ,foodPrice : Int
+                             ,foodPiece : Int
+                             ,userName : String){
+        CoroutineScope(Dispatchers.Main).launch {
+            foodsRepositoryImp.insertBasket(foodName,foodPicture,foodPrice,foodPiece,userName)
         }
     }
 
@@ -54,22 +59,32 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
         }
     }
 
-    fun decreaseBasketItem(basketItems: BasketItems,pieceTextView : TextView){
-
-        var currentPiece = pieceTextView.text.toString().toInt()
+    fun decreaseBasketItem(piece : Int,basketItems: BasketItems){
+        var currentPiece = piece
         currentPiece--
         if(currentPiece>0){
-            pieceTextView.text = currentPiece.toString()
+            deleteBasketItem(basketItems.foodID)
+            insertBasket(basketItems.foodName
+                ,basketItems.foodPicture
+                ,basketItems.foodPrice
+                ,currentPiece
+                , "kerem")
         }else{
             deleteBasketItem(basketItems.foodID)
-            _piece.postValue(currentPiece)
         }
     }
 
-    fun increaseBasketItem(piece : Int,pieceTextView : TextView){
+    fun increaseBasketItem(piece : Int,basketItems: BasketItems){
         var currentPiece = piece
         currentPiece++
-        pieceTextView.text = currentPiece.toString()
+        deleteBasketItem(basketItems.foodID)
+        insertBasket(basketItems.foodName
+            ,basketItems.foodPicture
+            ,basketItems.foodPrice
+            ,currentPiece
+            , "kerem")
     }
+
+
 
 }

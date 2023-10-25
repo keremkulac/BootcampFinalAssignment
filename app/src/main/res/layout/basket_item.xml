@@ -32,14 +32,16 @@
 
             <TextView
                 android:id="@+id/foodName"
-                android:layout_marginStart="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:gravity="center"
                 android:text="@{basketItem.foodName}"
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+
                 app:layout_constraintStart_toEndOf="@+id/foodImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,12 +60,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/foodName" />
 
 
-
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -72,33 +74,33 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/decrease_round_button"
-                    android:gravity="center"
-                    android:textSize="26sp"
                     android:elevation="15dp"
+                    android:gravity="center"
                     android:text="@string/decrease"
-                    android:textColor="@color/purple_700" />
+                    android:textColor="@color/purple_700"
+                    android:textSize="26sp" />
 
                 <TextView
                     android:id="@+id/itemPiece"
                     android:layout_width="36dp"
                     android:layout_height="match_parent"
                     android:background="@color/purple_700"
-                    android:textColor="@color/white"
                     android:gravity="center"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                        android:textSize="14sp" />
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/increaseItem"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:textSize="26sp"
                     android:background="@drawable/increase_round_button"
+                    android:elevation="15dp"
                     android:gravity="center"
                     android:text="@string/increase"
-                    android:elevation="15dp"
-                    android:textColor="@color/purple_700" />
+                    android:textColor="@color/purple_700"
+                    android:textSize="26sp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

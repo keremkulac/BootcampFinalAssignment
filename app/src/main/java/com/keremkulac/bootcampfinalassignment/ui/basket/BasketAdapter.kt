@@ -12,9 +12,12 @@ import com.keremkulac.bootcampfinalassignment.R
 import com.keremkulac.bootcampfinalassignment.databinding.BasketItemBinding
 import com.keremkulac.bootcampfinalassignment.entity.BasketItems
 
-class BasketAdapter(val context: Context,private var viewModel: BasketViewModel) : RecyclerView.Adapter<BasketAdapter.BasketViewHolder>() {
+class BasketAdapter(val context: Context) : RecyclerView.Adapter<BasketAdapter.BasketViewHolder>() {
 
     inner class BasketViewHolder(val binding : BasketItemBinding) : RecyclerView.ViewHolder(binding.root){}
+
+    var increaseClickListener: ((BasketItems,Int) -> Unit)? = null
+    var decreaseClickListener: ((BasketItems,Int) -> Unit)? = null
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
         val basketItems = basketItemsList[position]
@@ -23,10 +26,10 @@ class BasketAdapter(val context: Context,private var viewModel: BasketViewModel)
         Glide.with(context).load(url).override(500,700).into(holder.binding.foodImage)
         holder.binding.itemPiece.text = basketItems.foodPiece.toString()
         holder.binding.increaseItem.setOnClickListener {
-            viewModel.increaseBasketItem(holder.binding.itemPiece.text.toString().toInt(),holder.binding.itemPiece)
+            increaseClickListener?.invoke(basketItems,holder.binding.itemPiece.text.toString().toInt())
         }
         holder.binding.decreaseItem.setOnClickListener {
-            viewModel.decreaseBasketItem(basketItems,holder.binding.itemPiece)
+            decreaseClickListener?.invoke(basketItems,holder.binding.itemPiece.text.toString().toInt())
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasketViewHolder {

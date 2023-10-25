@@ -23,17 +23,19 @@ class BasketFragment : Fragment() {
         binding.basketObject = this
         observeEmptyList()
         observeBasketItemList()
-        observePiece()
+        calculate()
         return binding.root
     }
 
     private fun observeBasketItemList(){
         viewModel.basketItems.observe(viewLifecycleOwner) {list->
             if(list.isNotEmpty()){
-                adapter = BasketAdapter(requireContext(),viewModel)
+                adapter = BasketAdapter(requireContext())
                 adapter.basketItemsList = ArrayList(list)
                 binding.adapter = adapter
                 binding.totalPrice.text = viewModel.calculateTotalPrice(list).toString()
+                increaseClick()
+                decreaseClick()
             }
         }
     }
@@ -48,15 +50,30 @@ class BasketFragment : Fragment() {
         }
     }
 
-    private fun observePiece(){
-        viewModel.piece.observe(viewLifecycleOwner){
-            if(it == 0){
-                Navigation.findNavController(binding.root).navigate(R.id.basketFragment)
-            }
+
+    private fun calculate(){
+        viewModel.basketItems.observe(viewLifecycleOwner){
+            val total = viewModel.calculateTotalPrice(it)
+            binding.totalPrice.text = "$total ₺"
         }
     }
 
     fun back(){
         Navigation.findNavController(binding.root).navigate(BasketFragmentDirections.actionBasketFragmentToHomeFragment())
+    }
+
+    private fun increaseClick(){
+        adapter.increaseClickListener = {basketItems, itemPiece ->
+            viewModel.increaseBasketItem(itemPiece,basketItems)
+            Navigation.findNavController(binding.root).navigate(R.id.basketFragment)
+
+        }
+    }
+
+    private fun decreaseClick(){
+        adapter.decreaseClickListener = {basketItems, itemPiece ->
+            viewModel.decreaseBasketItem(itemPiece,basketItems)
+            Navigation.findNavController(binding.root).navigate(R.id.basketFragment)
+        }
     }
 }

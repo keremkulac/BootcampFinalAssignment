@@ -2,6 +2,7 @@ package com.keremkulac.bootcampfinalassignment.ui.detail
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
@@ -73,12 +74,17 @@ class FoodDetailFragment : Fragment() {
 
      fun insertBasket(){
         food?.let { food->
-            viewModel.insertBasket(
-                food.foodName
-                ,food.foodPicture
-                ,food.foodPrice
-                ,binding.piece.text.toString().toInt()
-                ,"kerem")
+            viewModel.error.observe(viewLifecycleOwner){isEmpty->
+                if(isEmpty){
+                    Log.d("TASFSA","BOŞ")
+                    viewModel.checkBasketItems(isEmpty,listOf(),food,binding.piece.text.toString().toInt())
+                }else{
+                    Log.d("TASFSA","DOLUU")
+                    viewModel.basketItems.observe(viewLifecycleOwner){list->
+                        viewModel.checkBasketItems(isEmpty,list,food,binding.piece.text.toString().toInt())
+                    }
+                }
+            }
         }
     }
 
