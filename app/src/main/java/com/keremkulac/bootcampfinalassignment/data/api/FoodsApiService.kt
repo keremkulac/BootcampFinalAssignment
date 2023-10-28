@@ -28,6 +28,6 @@ interface FoodsApiService {
     @POST("yemekler/sepettenYemekSil.php")
     @FormUrlEncoded
     suspend fun deleteBasketItem(@Field("sepet_yemek_id") basketItemID : Int,
-                                 @Field("kullanici_adi") userName : String)
+                                 @Field("kullanici_adi") userName : String) : CRUDResponse
 
 }

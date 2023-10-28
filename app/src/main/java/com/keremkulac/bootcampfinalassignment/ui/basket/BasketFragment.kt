@@ -63,17 +63,15 @@ class BasketFragment : Fragment() {
     }
 
     private fun increaseClick(){
-        adapter.increaseClickListener = {basketItems, itemPiece ->
-            viewModel.increaseBasketItem(itemPiece,basketItems)
-            Navigation.findNavController(binding.root).navigate(R.id.basketFragment)
-
+        adapter.increaseClickListener = {basketItems ,increaseButton->
+            viewModel.increaseBasketItem(basketItems,binding.basketProgressBar,increaseButton)
         }
     }
 
     private fun decreaseClick(){
-        adapter.decreaseClickListener = {basketItems, itemPiece ->
-            viewModel.decreaseBasketItem(itemPiece,basketItems)
-            Navigation.findNavController(binding.root).navigate(R.id.basketFragment)
+        adapter.decreaseClickListener = {basketItems, decreaseButton ->
+            viewModel.decreaseBasketItem(basketItems,binding.basketProgressBar,decreaseButton)
         }
     }
+
 }

@@ -14,9 +14,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.basket.BasketFragment">
+
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolBar"
@@ -132,6 +134,16 @@
             android:layout_height="wrap_content"
             android:text="@string/empty_basket_warning"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/basketProgressBar"
+            android:layout_width="75dp"
+            android:layout_height="77dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

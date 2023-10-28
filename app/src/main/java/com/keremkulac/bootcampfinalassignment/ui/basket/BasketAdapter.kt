@@ -2,6 +2,7 @@ package com.keremkulac.bootcampfinalassignment.ui.basket
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -16,8 +17,9 @@ class BasketAdapter(val context: Context) : RecyclerView.Adapter<BasketAdapter.B
 
     inner class BasketViewHolder(val binding : BasketItemBinding) : RecyclerView.ViewHolder(binding.root){}
 
-    var increaseClickListener: ((BasketItems,Int) -> Unit)? = null
-    var decreaseClickListener: ((BasketItems,Int) -> Unit)? = null
+    var increaseClickListener: ((BasketItems,View) -> Unit)? = null
+    var decreaseClickListener: ((BasketItems,View) -> Unit)? = null
+
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
         val basketItems = basketItemsList[position]
@@ -26,11 +28,12 @@ class BasketAdapter(val context: Context) : RecyclerView.Adapter<BasketAdapter.B
         Glide.with(context).load(url).override(500,700).into(holder.binding.foodImage)
         holder.binding.itemPiece.text = basketItems.foodPiece.toString()
         holder.binding.increaseItem.setOnClickListener {
-            increaseClickListener?.invoke(basketItems,holder.binding.itemPiece.text.toString().toInt())
+            increaseClickListener?.invoke(basketItems,holder.binding.increaseItem   )
         }
         holder.binding.decreaseItem.setOnClickListener {
-            decreaseClickListener?.invoke(basketItems,holder.binding.itemPiece.text.toString().toInt())
+            decreaseClickListener?.invoke(basketItems,holder.binding.decreaseItem   )
         }
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasketViewHolder {
         val binding : BasketItemBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.basket_item,parent,false)

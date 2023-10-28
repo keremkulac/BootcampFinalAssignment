@@ -1,14 +1,14 @@
 package com.keremkulac.bootcampfinalassignment.ui.basket
 
+import android.view.View
+import android.widget.ProgressBar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.keremkulac.bootcampfinalassignment.data.repository.FoodsRepositoryImp
 import com.keremkulac.bootcampfinalassignment.entity.BasketItems
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,7 +27,8 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
      fun getBasketItems(userName : String){
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                  _basketItems.postValue(foodsRepositoryImp.getBasketItems(userName).basketItems)
+                val sortedList = foodsRepositoryImp.getBasketItems(userName).basketItems.sortedByDescending { it.foodID }
+                  _basketItems.postValue(sortedList)
                 _error.postValue(false)
             }catch (e : java.lang.Exception){
                 _error.postValue(true)
@@ -35,11 +36,7 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
         }
     }
 
-    private fun insertBasket(foodName : String
-                             ,foodPicture : String
-                             ,foodPrice : Int
-                             ,foodPiece : Int
-                             ,userName : String){
+    private fun insertBasket(foodName : String,foodPicture : String,foodPrice : Int,foodPiece : Int,userName : String){
         CoroutineScope(Dispatchers.Main).launch {
             foodsRepositoryImp.insertBasket(foodName,foodPicture,foodPrice,foodPiece,userName)
         }
@@ -53,38 +50,58 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
         return total
     }
 
-    private fun deleteBasketItem(basketItemID : Int){
+    private fun deleteBasketItem(basketItemID : Int) : Int{
+        var response = 0
         CoroutineScope(Dispatchers.Main).launch {
-            foodsRepositoryImp.deleteBasketItem(basketItemID,"kerem")
+            response = foodsRepositoryImp.deleteBasketItem(basketItemID,"kerem").success
         }
+        return response
     }
 
-    fun decreaseBasketItem(piece : Int,basketItems: BasketItems){
-        var currentPiece = piece
+    fun decreaseBasketItem(basketItems: BasketItems,progressBar: ProgressBar,view: View){
+        var currentPiece = basketItems.foodPiece.toString().toInt()
         currentPiece--
-        if(currentPiece>0){
-            deleteBasketItem(basketItems.foodID)
-            insertBasket(basketItems.foodName
-                ,basketItems.foodPicture
-                ,basketItems.foodPrice
-                ,currentPiece
-                , "kerem")
-        }else{
-            deleteBasketItem(basketItems.foodID)
+        beforeProcess(progressBar,view)
+        GlobalScope.launch {
+            if(currentPiece>0){
+                foodsRepositoryImp.deleteBasketItem(basketItems.foodID,"kerem").success
+            withContext(Dispatchers.Main){
+                insertBasket(basketItems.foodName,basketItems.foodPicture,basketItems.foodPrice,currentPiece, "kerem")
+                delay(1500)
+                afterProcess(progressBar,view)
+            }
+            }else{
+                deleteBasketItem(basketItems.foodID)
+                afterProcess(progressBar,view)
+            }
         }
     }
 
-    fun increaseBasketItem(piece : Int,basketItems: BasketItems){
-        var currentPiece = piece
+    fun increaseBasketItem(basketItems: BasketItems, progressBar: ProgressBar, view: View){
+        var currentPiece = basketItems.foodPiece.toString().toInt()
         currentPiece++
-        deleteBasketItem(basketItems.foodID)
-        insertBasket(basketItems.foodName
-            ,basketItems.foodPicture
-            ,basketItems.foodPrice
-            ,currentPiece
-            , "kerem")
+        beforeProcess(progressBar,view)
+        GlobalScope.launch {
+            foodsRepositoryImp.deleteBasketItem(basketItems.foodID,"kerem")
+            withContext(Dispatchers.Main){
+                insertBasket(basketItems.foodName,basketItems.foodPicture,basketItems.foodPrice,currentPiece, "kerem")
+                delay(1500)
+                afterProcess(progressBar,view)
+            }
+        }
     }
 
+    private fun beforeProcess(progressBar: ProgressBar,view: View){
+        progressBar.visibility = View.VISIBLE
+        view.isFocusable = false
+        view.isClickable = false
+    }
 
+    private fun afterProcess(progressBar: ProgressBar,view: View){
+        progressBar.visibility = View.GONE
+        view.isFocusable = true
+        view.isClickable = true
+        getBasketItems("kerem")
+    }
 
 }
