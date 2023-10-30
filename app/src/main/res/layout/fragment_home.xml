@@ -26,9 +26,28 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+
+            <ru.nikartm.support.ImageBadgeView
+                android:id="@+id/basketIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="end"
+                android:onClick="@{()-> homeObject.goToBasket()}"
+                app:ibv_badgeTextSize="12sp"
+                app:ibv_fixedBadgeRadius="5dp"
+                app:ibv_badgeTextStyle="bold"
+                app:ibv_badgeTextColor="#ffffff"
+                app:ibv_badgeColor="@color/main"
+                app:ibv_badgeLimitValue="false"
+                android:src="@drawable/ic_basket"
+                app:ibv_badgePosition="bottom_right"/>
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/foodsRecyclerView"

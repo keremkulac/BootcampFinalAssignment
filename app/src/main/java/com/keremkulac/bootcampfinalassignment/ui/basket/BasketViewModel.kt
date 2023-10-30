@@ -21,6 +21,7 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
     val error: LiveData<Boolean>
         get() = _error
 
+
     init {
         getBasketItems("kerem")
     }
@@ -61,18 +62,23 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
     fun decreaseBasketItem(basketItems: BasketItems,progressBar: ProgressBar,view: View){
         var currentPiece = basketItems.foodPiece.toString().toInt()
         currentPiece--
-        beforeProcess(progressBar,view)
-        GlobalScope.launch {
+
+        GlobalScope.launch(Dispatchers.IO) {
             if(currentPiece>0){
+                withContext(Dispatchers.Main) {
+                    beforeProcess(progressBar, view)
+                }
                 foodsRepositoryImp.deleteBasketItem(basketItems.foodID,"kerem").success
-            withContext(Dispatchers.Main){
-                insertBasket(basketItems.foodName,basketItems.foodPicture,basketItems.foodPrice,currentPiece, "kerem")
-                delay(1500)
-                afterProcess(progressBar,view)
+                withContext(Dispatchers.Main){
+                    insertBasket(basketItems.foodName,basketItems.foodPicture,basketItems.foodPrice,currentPiece, "kerem")
+                    delay(1500)
+                    afterProcess(progressBar,view)
             }
             }else{
+                withContext(Dispatchers.Main){
+                    afterProcess(progressBar,view)
+                }
                 deleteBasketItem(basketItems.foodID)
-                afterProcess(progressBar,view)
             }
         }
     }
@@ -103,5 +109,6 @@ class BasketViewModel @Inject constructor(private val foodsRepositoryImp: FoodsR
         view.isClickable = true
         getBasketItems("kerem")
     }
+
 
 }

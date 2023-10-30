@@ -31,15 +31,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
-            <ImageButton
+
+            <ru.nikartm.support.ImageBadgeView
+                android:id="@+id/basketIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_basket"
+                android:layout_marginEnd="10dp"
                 android:layout_gravity="end"
-                android:layout_marginEnd="8dp"
                 android:onClick="@{()-> detailObject.goToBasket()}"
-                android:background="?attr/selectableItemBackground"
-                android:contentDescription="@string/todo" />
+                app:ibv_badgeTextSize="12sp"
+                app:ibv_fixedBadgeRadius="5dp"
+                app:ibv_badgeTextStyle="bold"
+                app:ibv_badgeTextColor="#ffffff"
+                app:ibv_badgeColor="@color/main"
+                app:ibv_badgeLimitValue="false"
+                android:src="@drawable/ic_basket"
+                app:ibv_badgePosition="bottom_right"/>
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView

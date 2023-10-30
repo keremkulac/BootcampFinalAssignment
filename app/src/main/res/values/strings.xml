@@ -11,4 +11,5 @@
     <string name="increase">+</string>
     <string name="empty_basket_warning">Sepetiniz boş</string>
     <string name="my_orders">Siparişlerim</string>
+    <string name="foods">Yemekler</string>
 </resources>

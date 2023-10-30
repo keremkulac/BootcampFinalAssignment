@@ -59,5 +59,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
+    implementation("io.github.nikartm:image-support:2.0.0")
 
 }

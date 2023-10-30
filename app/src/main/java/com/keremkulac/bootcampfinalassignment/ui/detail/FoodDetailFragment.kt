@@ -2,7 +2,6 @@ package com.keremkulac.bootcampfinalassignment.ui.detail
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
@@ -28,6 +27,8 @@ class FoodDetailFragment : Fragment() {
         food = arg.food
         binding.detailObject = this
         binding.food = food
+        setBasketIconSizeBadge()
+        checkAndSet()
         val url = "http://kasimadalan.pe.hu/yemekler/resimler/${food!!.foodPicture}"
         Glide.with(requireContext()).load(url).override(500,700).into(binding.foodImage)
         return binding.root
@@ -41,18 +42,11 @@ class FoodDetailFragment : Fragment() {
             binding.decrease.isClickable = true
             binding.decrease.isFocusable = true
             binding.piece.text = piece.toString()
-            val originalDrawable: Drawable? = ContextCompat.getDrawable(requireContext(), R.drawable.ic_decrease_round)
-            val drawable = originalDrawable?.constantState?.newDrawable()
-            val newColor = ContextCompat.getColor(requireContext(), R.color.purple_500)
-            if (drawable != null) {
-                  drawable.mutate()
-                  DrawableCompat.setTint(drawable, newColor)
-            }
-            binding.decrease.setImageDrawable(drawable)
+            binding.decrease.setImageDrawable(setDrawable(R.color.sub_main))
         }
     }
 
-     fun decreasePiece(){
+    fun decreasePiece(){
         binding.decrease.setOnClickListener {
             var piece = binding.piece.text.toString().toInt()
             piece--
@@ -60,14 +54,7 @@ class FoodDetailFragment : Fragment() {
             if(piece == 1){
                 binding.decrease.isClickable = false
                 binding.decrease.isFocusable = false
-                val originalDrawable: Drawable? = ContextCompat.getDrawable(requireContext(), R.drawable.ic_decrease_round)
-                val drawable = originalDrawable?.constantState?.newDrawable()
-                val newColor = ContextCompat.getColor(requireContext(), R.color.grey)
-                if (drawable != null) {
-                    drawable.mutate()
-                    DrawableCompat.setTint(drawable, newColor)
-                }
-                binding.decrease.setImageDrawable(drawable)
+                binding.decrease.setImageDrawable(setDrawable(R.color.grey))
             }
         }
     }
@@ -76,20 +63,47 @@ class FoodDetailFragment : Fragment() {
         food?.let { food->
             viewModel.error.observe(viewLifecycleOwner){isEmpty->
                 if(isEmpty){
-                    Log.d("TASFSA","BOŞ")
                     viewModel.checkBasketItems(isEmpty,listOf(),food,binding.piece.text.toString().toInt())
                 }else{
-                    Log.d("TASFSA","DOLUU")
                     viewModel.basketItems.observe(viewLifecycleOwner){list->
                         viewModel.checkBasketItems(isEmpty,list,food,binding.piece.text.toString().toInt())
                     }
                 }
             }
+
         }
     }
 
+    private fun setBasketIconSizeBadge(){
+        viewModel.basketItems.observe(viewLifecycleOwner){
+            binding.basketIcon.badgeValue = it.size
+        }
+    }
     fun goToBasket(){
         Navigation.findNavController(binding.root).navigate(FoodDetailFragmentDirections.actionFoodDetailFragmentToBasketFragment())
     }
 
+    fun checkAndSet(){
+        food?.let {comingFood->
+            viewModel.basketItems.observe(viewLifecycleOwner){
+                val same = it.find { it.foodName == comingFood.foodName }
+                    if( same != null){
+                        binding.piece.text = same.foodPiece.toString()
+                    }else{
+                        binding.decrease.setImageDrawable(setDrawable(R.color.grey))
+                    }
+            }
+        }
+    }
+
+    private fun setDrawable(colorID : Int) : Drawable?{
+        val originalDrawable: Drawable? = ContextCompat.getDrawable(requireContext(), R.drawable.ic_decrease_round)
+        val drawable = originalDrawable?.constantState?.newDrawable()
+        val newColor = ContextCompat.getColor(requireContext(),colorID)
+        if (drawable != null) {
+            drawable.mutate()
+            DrawableCompat.setTint(drawable, newColor)
+        }
+        return drawable
+    }
 }

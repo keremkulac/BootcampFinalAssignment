@@ -57,9 +57,8 @@ class FoodDetailViewModel @Inject constructor(private val foodsRepositoryImp: Fo
         if (!isEmpty) {
             val sameFood = basketItemList.find { it.foodName == food.foodName }
             if (sameFood != null) {
-                val newPiece = piece + sameFood.foodPiece
                 deleteBasketItem(sameFood.foodID)
-                insertBasket(food.foodName, food.foodPicture, food.foodPrice, newPiece, "kerem")
+                insertBasket(food.foodName, food.foodPicture, food.foodPrice, piece, "kerem")
             } else {
                 insertBasket(food.foodName, food.foodPicture, food.foodPrice, piece, "kerem")
             }
@@ -67,5 +66,7 @@ class FoodDetailViewModel @Inject constructor(private val foodsRepositoryImp: Fo
             insertBasket(food.foodName, food.foodPicture, food.foodPrice, piece, "kerem")
         }
     }
+
+
 
 }
